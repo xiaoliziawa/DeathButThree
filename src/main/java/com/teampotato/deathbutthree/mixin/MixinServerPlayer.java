@@ -45,18 +45,33 @@ public abstract class MixinServerPlayer extends Player {
             if (sourceName != null && Config.bosses.get().contains(sourceName.toString())) {
                 Set<String> tags = sourceLiving.getTags();
                 String uuid = sourceLiving.getStringUUID();
-                if (tags.contains("death_but_two" + uuid)) {
-                    tags.remove("death_but_two" + uuid);
+                int maxDeathAmount = 10;
+                /*
+                    maxDeathAmount，最大死亡次数，访问配置得到(这里先用10代替)，
+                    在配置代码中判断数值是否属于范围1~2147483647，否则抛出异常，并设置其数值为默认值3
+                */
+                if (tags.contains("death_but_" + (maxDeathAmount - 1) + uuid) || maxDeathAmount == 1) {
+                    if (maxDeathAmount != 1) {
+                        tags.remove("death_but_" + (maxDeathAmount - 1) + uuid);
+                    }
                     MinecraftServer server = this.getLevel().getServer();
                     server.getCommands().performPrefixedCommand(server.createCommandSourceStack().withSuppressedOutput(),
                             "execute in " + sourceLiving.level.dimension().location() + " run summon " + sourceName + " " +
                                     sourceLiving.getX() + " " + sourceLiving.getY() + " " + sourceLiving.getZ());
                     sourceLiving.remove(DISCARDED);
-                } else if (tags.contains("death_but_one" + uuid)) {
-                    tags.remove("death_but_one" + uuid);
-                    tags.add("death_but_two" + uuid);
                 } else {
-                    tags.add("death_but_one" + uuid);
+                    boolean have_died = false;
+                    for (int deathAmount = maxDeathAmount - 2; deathAmount > 0; deathAmount--) {
+                        if (tags.contains("death_but_" + deathAmount + uuid)) {
+                            tags.remove("death_but_" + deathAmount + uuid);
+                            tags.add("death_but_" + (deathAmount + 1) + uuid);
+                            have_died = true;
+                            break;
+                        }
+                    }
+                    if (have_died == false) {
+                        tags.add("death_but_" + 1 + uuid);     
+                    }
                 }
             }
         }
