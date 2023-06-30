@@ -45,11 +45,7 @@ public abstract class MixinServerPlayer extends Player {
             if (sourceName != null && Config.bosses.get().contains(sourceName.toString())) {
                 Set<String> tags = sourceLiving.getTags();
                 String uuid = sourceLiving.getStringUUID();
-                int maxDeathAmount = 10;
-                /*
-                    maxDeathAmount，最大死亡次数，访问配置得到(这里先用10代替)，
-                    在配置代码中判断数值是否属于范围1~2147483647，否则抛出异常，并设置其数值为默认值3
-                */
+                int maxDeathAmount = Config.maxDeathTimes.get();
                 if (tags.contains("death_but_" + (maxDeathAmount - 1) + uuid) || maxDeathAmount == 1) {
                     if (maxDeathAmount != 1) {
                         tags.remove("death_but_" + (maxDeathAmount - 1) + uuid);
@@ -69,7 +65,7 @@ public abstract class MixinServerPlayer extends Player {
                             break;
                         }
                     }
-                    if (have_died == false) {
+                    if (!have_died) {
                         tags.add("death_but_" + 1 + uuid);     
                     }
                 }
