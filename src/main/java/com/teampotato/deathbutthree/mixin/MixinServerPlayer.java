@@ -5,7 +5,6 @@ import com.teampotato.deathbutthree.Config;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -14,8 +13,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.ProfilePublicKey;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -27,7 +26,7 @@ import java.util.Set;
 
 @Mixin(ServerPlayer.class)
 public abstract class MixinServerPlayer extends Player {
-    @Shadow public abstract @NotNull ServerLevel getLevel();
+    @Shadow @Final public MinecraftServer server;
 
     public MixinServerPlayer(Level pLevel, BlockPos pPos, float pYRot, GameProfile pGameProfile, @Nullable ProfilePublicKey pProfilePublicKey) {
         super(pLevel, pPos, pYRot, pGameProfile, pProfilePublicKey);
@@ -50,7 +49,7 @@ public abstract class MixinServerPlayer extends Player {
                     if (maxDeathAmount != 1) {
                         tags.remove("death_but_" + (maxDeathAmount - 1) + uuid);
                     }
-                    MinecraftServer server = this.getLevel().getServer();
+                    MinecraftServer server = this.server;
                     server.getCommands().performPrefixedCommand(server.createCommandSourceStack().withSuppressedOutput(),
                             "execute in " + sourceLiving.level.dimension().location() + " run summon " + sourceName + " " +
                                     sourceLiving.getX() + " " + sourceLiving.getY() + " " + sourceLiving.getZ());
