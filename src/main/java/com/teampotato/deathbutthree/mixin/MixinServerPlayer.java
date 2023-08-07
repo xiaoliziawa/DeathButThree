@@ -34,9 +34,9 @@ public abstract class MixinServerPlayer extends Player {
     }
 
     @Unique
-    private static final RemovalReason DISCARDED = RemovalReason.DISCARDED;
+    private static final RemovalReason deathButThree$discarded = RemovalReason.DISCARDED;
 
-    @Inject(method = "die", at = @At("HEAD"))
+    @Inject(method = "die", at = @At(value = "INVOKE", target = "Lnet/minecraftforge/common/ForgeHooks;onLivingDeath(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/damagesource/DamageSource;)Z", shift = At.Shift.AFTER))
     private void onDie(DamageSource damageSource, CallbackInfo ci) {
         if (damageSource == null) return;
         Entity sourceEntity = damageSource.getEntity();
@@ -54,7 +54,7 @@ public abstract class MixinServerPlayer extends Player {
                     server.getCommands().performPrefixedCommand(server.createCommandSourceStack().withSuppressedOutput(),
                             "execute in " + sourceLiving.level.dimension().location() + " run summon " + sourceName + " " +
                                     sourceLiving.getX() + " " + sourceLiving.getY() + " " + sourceLiving.getZ());
-                    sourceLiving.remove(DISCARDED);
+                    sourceLiving.remove(deathButThree$discarded);
                 } else {
                     boolean have_died = false;
                     for (int deathAmount = maxDeathAmount - 2; deathAmount > 0; deathAmount--) {
