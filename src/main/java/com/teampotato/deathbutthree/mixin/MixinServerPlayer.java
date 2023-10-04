@@ -35,7 +35,7 @@ public abstract class MixinServerPlayer extends Player {
     @Unique
     private static final RemovalReason deathButThree$discarded = RemovalReason.DISCARDED;
 
-    @Inject(method = "die", at = @At(value = "INVOKE", target = "Lnet/minecraftforge/common/ForgeHooks;onLivingDeath(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/damagesource/DamageSource;)Z", remap = false, shift = At.Shift.AFTER))
+    @Inject(method = "die", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/GameRules;getBoolean(Lnet/minecraft/world/level/GameRules$Key;)Z", ordinal = 0, shift = At.Shift.AFTER))
     private void onDie(DamageSource damageSource, CallbackInfo ci) {
         if (damageSource == null) return;
         Entity sourceEntity = damageSource.getEntity();

@@ -13,10 +13,9 @@ buildscript {
 
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
-apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '1.19.2-1.0.1'
+version = '1.19.2-1.0.2'
 group = 'com.teampotato.deathbutthree'
 archivesBaseName = 'deathbutthree'
 
@@ -89,17 +88,4 @@ jar {
     }
 }
 
-jar.finalizedBy('reobfJar') 
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact jar
-        }
-    }
-    repositories {
-        maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
-        }
-    }
-}
+jar.finalizedBy('reobfJar')
