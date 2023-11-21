@@ -1,8 +1,8 @@
 package com.teampotato.deathbutthree;
 
 import com.teampotato.deathbutthree.api.ExtendedEntityType;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.entity.EntityType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;

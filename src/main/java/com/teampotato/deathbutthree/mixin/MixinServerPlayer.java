@@ -3,12 +3,12 @@ package com.teampotato.deathbutthree.mixin;
 import com.mojang.authlib.GameProfile;
 import com.teampotato.deathbutthree.Config;
 import com.teampotato.deathbutthree.api.ExtendedEntityType;
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -16,17 +16,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Set;
 
-@Mixin(ServerPlayer.class)
-public abstract class MixinServerPlayer extends Player {
+@Mixin(ServerPlayerEntity.class)
+public abstract class MixinServerPlayer extends PlayerEntity {
 
-    public MixinServerPlayer(Level pLevel, BlockPos pPos, float pYRot, GameProfile pGameProfile) {
+    public MixinServerPlayer(World pLevel, BlockPos pPos, float pYRot, GameProfile pGameProfile) {
         super(pLevel, pPos, pYRot, pGameProfile);
     }
 
-    @Inject(method = "die", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/GameRules;getBoolean(Lnet/minecraft/world/level/GameRules$Key;)Z", ordinal = 0, shift = At.Shift.BEFORE))
+    @Inject(method = "die", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/GameRules;getBoolean(Lnet/minecraft/world/GameRules$RuleKey;)Z", ordinal = 0, shift = At.Shift.BEFORE))
     private void onDie(DamageSource damageSource, CallbackInfo ci) {
         if (damageSource == null) return;
-        if (damageSource.getEntity() instanceof LivingEntity sourceLiving && ((ExtendedEntityType)sourceLiving.getType()).deathButThree$getIsBoss()) {
+        if (damageSource.getEntity() instanceof LivingEntity) {
+            LivingEntity sourceLiving = (LivingEntity)damageSource.getEntity();
+            if (!((ExtendedEntityType)sourceLiving.getType()).deathButThree$getIsBoss()) return;
             Set<String> tags = sourceLiving.getTags();
             String uuid = sourceLiving.getStringUUID();
             int maxDeathAmount = Config.MAX_DEATH_TIMES.get();
