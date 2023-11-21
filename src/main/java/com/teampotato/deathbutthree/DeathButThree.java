@@ -17,8 +17,8 @@ public class DeathButThree {
     public DeathButThree() {
         ModLoadingContext.get().registerConfig(Type.COMMON, Config.CONFIG);
         FMLJavaModLoadingContext.get().getModEventBus().addListener((FMLCommonSetupEvent event) -> event.enqueueWork(() -> {
-            for (EntityType<?> entityType : ForgeRegistries.ENTITY_TYPES) {
-                ResourceLocation id = ForgeRegistries.ENTITY_TYPES.getKey(entityType);
+            for (EntityType<?> entityType : ForgeRegistries.ENTITIES) {
+                ResourceLocation id = entityType.getRegistryName();
                 if (id == null) continue;
                 ((ExtendedEntityType)entityType).deathButThree$setIsBoss(Config.BOSSES.get().contains(id.toString()));
             }
