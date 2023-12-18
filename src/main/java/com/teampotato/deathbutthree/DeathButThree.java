@@ -21,7 +21,7 @@ public class DeathButThree {
                 String registryName = entry.split(";")[0];
                 ResourceLocation id = new ResourceLocation(registryName.split(":")[0], registryName.split(":")[1]);
                 String maxDeathTime = entry.split(";")[1];
-                EntityType<?> entityType = ForgeRegistries.ENTITIES.getValue(id);
+                EntityType<?> entityType = ForgeRegistries.ENTITY_TYPES.getValue(id);
                 if (entityType == null) continue;
                 ((ExtendedEntityType)entityType).deathButThree$setMaxDeathTime(Integer.parseInt(maxDeathTime));
             }
