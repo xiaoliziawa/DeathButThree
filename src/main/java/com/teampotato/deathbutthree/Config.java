@@ -7,14 +7,12 @@ import java.util.List;
 
 public class Config {
     public static final ForgeConfigSpec CONFIG;
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> BOSSES;
-    public static final ForgeConfigSpec.IntValue MAX_DEATH_TIMES;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> ENTIRES;
 
     static {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
         builder.push("DeathButThree");
-        BOSSES = builder.defineList("ValidBosses", ObjectArrayList.wrap(new String[]{"cataclysm:ignis"}), o -> o instanceof String);
-        MAX_DEATH_TIMES = builder.defineInRange("maxDeathTimes", 3, 1, Integer.MAX_VALUE);
+        ENTIRES = builder.comment("Before ';': boss' registry name", "After ';': its max death times").defineList("ValidBossesAndMaxDeathTimes", ObjectArrayList.wrap(new String[]{"cataclysm:ignis;3"}), o -> o instanceof String);
         builder.pop();
         CONFIG = builder.build();
     }

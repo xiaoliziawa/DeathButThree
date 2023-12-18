@@ -1,21 +1,21 @@
 package com.teampotato.deathbutthree.mixin;
 
 import com.teampotato.deathbutthree.api.ExtendedEntityType;
-import net.minecraft.entity.EntityType;
+import net.minecraft.world.entity.EntityType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(EntityType.class)
 public class EntityTypeMixin implements ExtendedEntityType {
-    @Unique private boolean deathButThree$isBoss;
+    @Unique private int deathButThree$maxDeathTime = -1;
 
     @Override
-    public boolean deathButThree$getIsBoss() {
-        return this.deathButThree$isBoss;
+    public int deathButThree$getMaxDeathTime() {
+        return this.deathButThree$maxDeathTime;
     }
 
     @Override
-    public void deathButThree$setIsBoss(boolean isBoss) {
-        this.deathButThree$isBoss = isBoss;
+    public void deathButThree$setMaxDeathTime(int maxDeathTime) {
+        this.deathButThree$maxDeathTime = maxDeathTime;
     }
 }

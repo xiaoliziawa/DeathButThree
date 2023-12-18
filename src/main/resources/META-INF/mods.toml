@@ -1,12 +1,19 @@
-modLoader="javafml"
-loaderVersion="[36,)"
-license="LGPL-v3"
+modLoader = "javafml"
+loaderVersion = "[36,)"
+license = "LGPL-v3"
 
 [[mods]]
-modId="deathbutthree"
-version="${file.jarVersion}"
-displayName="DeathButThree"
-authors="Team Potato"
-description='''
-
+modId = "deathbutthree"
+version = "${version}"
+displayName = "DeathButThree"
+authors = "TeamPotato"
+description = '''
+A Minecraft Mod.
 '''
+
+[[dependencies.deathbutthree]]
+modId = "forge"
+mandatory = true
+versionRange = "[36,)"
+ordering = "NONE"
+side = "BOTH"
