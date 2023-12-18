@@ -1,7 +1,7 @@
 package com.teampotato.deathbutthree.mixin;
 
 import com.teampotato.deathbutthree.api.ExtendedEntityType;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.entity.EntityType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 

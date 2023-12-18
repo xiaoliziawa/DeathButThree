@@ -1,0 +1,27 @@
+{
+	"schemaVersion": 1,
+	"id": "deathbutthree",
+	"version": "${version}",
+	"name": "DeathButThree",
+	"description": "A Minecraft Mod",
+	"authors": [
+		"TeamPotato"
+	],
+	"contact": {
+		"homepage": "https://www.curseforge.com/minecraft/mc-mods/deathbutthree",
+		"sources": "https://github.com/MCTeamPotato/DeathButThree"
+	},
+	"license": "LGPL-v3",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.teampotato.deathbutthree.DeathButThree"
+		]
+	},
+	"mixins": [
+		"deathbutthree.mixins.json"
+	],
+	"depends": {
+		"minecraft": "*"
+	}
+}

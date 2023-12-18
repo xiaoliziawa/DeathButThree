@@ -1,13 +1,12 @@
 {
   "required": true,
   "package": "com.teampotato.deathbutthree.mixin",
-  "compatibilityLevel": "JAVA_8",
-  "minVersion": "0.8",
-  "injectors": {
-    "defaultRequire": 1
-  },
+  "compatibilityLevel": "JAVA_17",
   "mixins": [
     "EntityTypeMixin",
     "MixinServerPlayer"
-  ]
+  ],
+  "injectors": {
+    "defaultRequire": 1
+	}
 }

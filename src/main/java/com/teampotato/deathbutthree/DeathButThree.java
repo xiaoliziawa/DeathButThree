@@ -1,30 +1,20 @@
 package com.teampotato.deathbutthree;
 
 import com.teampotato.deathbutthree.api.ExtendedEntityType;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
+import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
+import net.fabricmc.api.ModInitializer;
+import net.minecraft.registry.Registries;
+import net.minecraft.util.Identifier;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeRegistries;
 
-@Mod(DeathButThree.MOD_ID)
-public class DeathButThree {
-    public static final String MOD_ID = "deathbutthree";
-
-    public DeathButThree() {
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.CONFIG);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener((FMLCommonSetupEvent event) -> event.enqueueWork(() -> {
-            for (String entry : Config.ENTIRES.get()) {
-                String registryName = entry.split(";")[0];
-                ResourceLocation id = new ResourceLocation(registryName.split(":")[0], registryName.split(":")[1]);
-                String maxDeathTime = entry.split(";")[1];
-                EntityType<?> entityType = ForgeRegistries.ENTITIES.getValue(id);
-                if (entityType == null) continue;
-                ((ExtendedEntityType)entityType).deathButThree$setMaxDeathTime(Integer.parseInt(maxDeathTime));
-            }
-        }));
-    }
+public class DeathButThree implements ModInitializer {
+	@Override
+	public void onInitialize() {
+		ForgeConfigRegistry.INSTANCE.register("deathbutthree", ModConfig.Type.COMMON, Config.CONFIG);
+		for (String entry : Config.ENTIRES.get()) {
+			String registryName = entry.split(";")[0];
+			((ExtendedEntityType)Registries.ENTITY_TYPE.get(new Identifier(registryName.split(":")[0], registryName.split(":")[1])))
+					.deathButThree$setMaxDeathTime(Integer.parseInt(entry.split(";")[1]));
+		}
+	}
 }
