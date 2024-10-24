@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.prizowo.deatbutthreereload.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "deatbutthreereload.refmap.json",
+  "mixins": [
+    "EntityTypeMixin",
+    "MixinServerPlayer"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
